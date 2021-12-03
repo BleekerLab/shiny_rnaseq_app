@@ -37,3 +37,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+datasets/
+.DS_Store
+shiny_rnaseq_app.Rproj
