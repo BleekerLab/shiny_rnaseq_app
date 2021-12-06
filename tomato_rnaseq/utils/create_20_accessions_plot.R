@@ -1,5 +1,4 @@
-import_process__and_create_f2_plot_data <- function(dataset = "datasets/dataset03_F2_ElitexPI127826.csv", 
-                                                    my_selected_gene = "Solyc10g075090"){
+import_process__and_create_20_accessions_plot <- function(dataset = "datasets/20accessions.csv", my_selected_gene = "Solyc10g075090"){
   # Goal = pass the plot ready for Shiny
   new_genotype_levels = c("Elite_2017",
                           "Elite_2020",
@@ -12,7 +11,7 @@ import_process__and_create_f2_plot_data <- function(dataset = "datasets/dataset0
                           "F2-151",
                           "F2-411",
                           "F2-445")
-  genotype2phenotype <- read.csv("info/dataset03_F2_samples2condition.csv", 
+  genotype2phenotype <- read.csv("datasets/dataset01_20_accessions.csv", 
                                  stringsAsFactors = FALSE)
   
   df <- read.csv(dataset, stringsAsFactors = FALSE, check.names = FALSE)
@@ -30,3 +29,8 @@ import_process__and_create_f2_plot_data <- function(dataset = "datasets/dataset0
   
   return(p)
 }
+
+
+df <- read.delim("tomato_rnaseq/datasets/20accessions.tsv", check.names = F, stringsAsFactors = F)
+df$sample2 = df$sample
+df <- df %>% separate(col = "sample2", into = c("genotype", "replicate")) 

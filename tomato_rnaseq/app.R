@@ -32,7 +32,7 @@ ui <- dashboardPage(
                 )
               ),
               fluidRow(
-                box(plotOutput("plot2", height = 250))
+                box(plotOutput("plot2", height = 300))
               )
       ),
       
