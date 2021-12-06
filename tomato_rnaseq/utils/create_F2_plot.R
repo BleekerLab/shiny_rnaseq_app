@@ -26,7 +26,8 @@ import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03
     geom_point(size = 3) + 
     scale_fill_brewer(type = "qual", palette = 3) +
     coord_flip() +
-    labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)")
+    labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)") +
+    ggtitle("Gene expression in 'active' and 'lazy' F2s")
   
   return(p)
 }

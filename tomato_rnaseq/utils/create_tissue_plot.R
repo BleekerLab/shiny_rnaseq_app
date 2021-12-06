@@ -15,7 +15,8 @@ create_tissue_plot <- function(dataset = "datasets/dataset02_tissues.csv",
     geom_point() +
     scale_fill_brewer(type = "qual", palette = 3) +
     facet_wrap(~ tissue) +
-    labs(x = "Genotypes", y = "Normalised counts (AU)")
+    labs(x = "Genotypes", y = "Normalised counts (AU)") +
+    ggtitle("Gene expression in different tissues")
   
   return(p)
 }

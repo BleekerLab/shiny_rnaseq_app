@@ -11,7 +11,7 @@ source("utils/create_tissue_plot.R")
 # User Interface
 ################
 ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard", titleWidth = 200),
+  dashboardHeader(title = "Tomato gene explorer", titleWidth = 200),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
@@ -24,13 +24,6 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "plots",
-              fluidRow(
-                box(plotOutput("plot1", height = 250)),
-                box(
-                  title = "Controls",
-                  sliderInput("slider", "Number of observations:", 1, 100, 50)
-                )
-              ),
               fluidRow(
                 box(plotOutput("plot2", height = 300)),
                 box(plotOutput("plot3", height = 300))
@@ -50,14 +43,6 @@ ui <- dashboardPage(
 # Server side
 #############
 server <- function(input, output) {
-  set.seed(122)
-  histdata <- rnorm(500)
-  cars <- read.csv("datasets/cars.csv")
-  # test
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
-  })
   # F2 data
   output$plot2 <- renderPlot({
     import_process_and_create_f2_plot_data(my_selected_gene = input$gene)
