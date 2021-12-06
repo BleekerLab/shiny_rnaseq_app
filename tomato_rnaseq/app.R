@@ -5,6 +5,7 @@ library(ggplot2)
 
 
 source("utils/create_F2_plot.R")
+source("utils/create_tissue_plot.R")
 
 ################
 # User Interface
@@ -25,15 +26,16 @@ ui <- dashboardPage(
       tabItem(tabName = "plots",
               fluidRow(
                 box(plotOutput("plot1", height = 250)),
-                
                 box(
                   title = "Controls",
                   sliderInput("slider", "Number of observations:", 1, 100, 50)
                 )
               ),
               fluidRow(
-                box(plotOutput("plot2", height = 300))
+                box(plotOutput("plot2", height = 300)),
+                box(plotOutput("plot3", height = 300))
               )
+              
       ),
       
       # Second tab content
@@ -51,14 +53,19 @@ server <- function(input, output) {
   set.seed(122)
   histdata <- rnorm(500)
   cars <- read.csv("datasets/cars.csv")
-  
+  # test
   output$plot1 <- renderPlot({
     data <- histdata[seq_len(input$slider)]
     hist(data)
   })
+  # F2 data
   output$plot2 <- renderPlot({
-    import_process__and_create_f2_plot_data(my_selected_gene = input$gene)
+    import_process_and_create_f2_plot_data(my_selected_gene = input$gene)
     })
+  # Tissue plot
+  output$plot3 <- renderPlot({
+    create_tissue_plot(my_selected_gene = input$gene)
+  })
 }
 
 shinyApp(ui, server)

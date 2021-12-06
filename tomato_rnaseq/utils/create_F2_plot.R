@@ -1,4 +1,4 @@
-import_process__and_create_f2_plot_data <- function(dataset = "datasets/dataset03_F2_ElitexPI127826.csv", 
+import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03_F2_ElitexPI127826.csv", 
                                                     my_selected_gene = "Solyc10g075090"){
   # Goal = pass the plot ready for Shiny
   new_genotype_levels = c("Elite_2017",
