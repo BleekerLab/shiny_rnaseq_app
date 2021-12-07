@@ -1,36 +1,36 @@
-import_process__and_create_20_accessions_plot <- function(dataset = "datasets/20accessions.csv", my_selected_gene = "Solyc10g075090"){
+create_20_accessions_plot <- function(dataset = "datasets/dataset01_20_accessions.csv", 
+                                                          my_selected_gene = "Solyc10g075090"){
   # Goal = pass the plot ready for Shiny
-  new_genotype_levels = c("Elite_2017",
-                          "Elite_2020",
-                          "F1",     
-                          "PI127826_2020",
-                          "PI127826_2017",
-                          "F2-28",
-                          "F2-73",
-                          "F2-127",
-                          "F2-151",
-                          "F2-411",
-                          "F2-445")
-  genotype2phenotype <- read.csv("datasets/dataset01_20_accessions.csv", 
-                                 stringsAsFactors = FALSE)
+  # Step 01: import counts
+  df <- read.csv("datasets/dataset01_20_accessions.csv", 
+                 stringsAsFactors = F) %>% 
+    pivot_longer(- gene, names_to = "sample", values_to = "counts") %>% 
+    separate(sample, into = c("genotype", "replicate"))
   
-  df <- read.csv(dataset, stringsAsFactors = FALSE, check.names = FALSE)
+  # Step 02: import sample to genotype and species correspondence 
+  genotype2species <- read.csv("info/dataset01_20_accessions_samples2species.csv", 
+                               stringsAsFactors = F) %>% 
+    arrange(species)
+  species_order <- genotype2species %>% pull(species) %>% unique()
+  genotype_order <- genotype2species %>% pull(genotype) %>% unique()
   
+  # Step 03: filter complete dataframe to keep only gene of interest
   df_filtered <- dplyr::filter(.data = df, grepl(pattern = my_selected_gene, x = gene)) %>% 
-    inner_join(., y = genotype2phenotype, by = "genotype") %>% 
-    mutate(genotype = factor(genotype, levels = new_genotype_levels))
+    inner_join(., y = genotype2species, by = "genotype") %>% 
+    mutate(species = factor(species, levels = species_order)) %>% 
+    mutate(genotype = factor(genotype, levels = genotype_order)) 
   
-  
-  p <- ggplot(df_filtered, aes(x = genotype, y = counts, col = trichome_class)) + 
-    geom_point(size = 3) + 
+  # Step 04: Create the plot and make it interactive 
+  p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = species)) + 
+    geom_boxplot() + 
+    geom_point() +
     scale_fill_brewer(type = "qual", palette = 3) +
-    coord_flip() +
-    labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)")
+    labs(x = "Genotype", y = "Normalised counts (AU)") +
+    ggtitle("Stem trichome gene expression (20 accessions)") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  p <- ggplotly(p)
   
   return(p)
 }
 
 
-df <- read.delim("tomato_rnaseq/datasets/20accessions.tsv", check.names = F, stringsAsFactors = F)
-df$sample2 = df$sample
-df <- df %>% separate(col = "sample2", into = c("genotype", "replicate")) 

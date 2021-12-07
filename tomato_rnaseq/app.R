@@ -1,11 +1,12 @@
 ## app.R ##
 library(shiny)
 library(shinydashboard)
-library(ggplot2)
-
+suppressPackageStartupMessages(library("tidyverse"))
+suppressPackageStartupMessages(library("plotly"))
 
 source("utils/create_F2_plot.R")
 source("utils/create_tissue_plot.R")
+source("utils/create_20_accessions_plot.R")
 
 ################
 # User Interface
@@ -25,15 +26,17 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "plots",
               fluidRow(
-                box(plotOutput("plot2", height = 300)),
-                box(plotOutput("plot3", height = 300))
+                box(status = "primary", width = 6, plotOutput("plot2")),
+                box( status = "primary", width = 6, plotOutput("plot3"))
+              ),
+              fluidRow(
+                box(status = "success", plotlyOutput("plot4"))
               )
-              
       ),
       
       # Second tab content
       tabItem(tabName = "data",
-              h2("Widgets tab content")
+              h2("FIXME")
       )
     )
   )
@@ -50,6 +53,10 @@ server <- function(input, output) {
   # Tissue plot
   output$plot3 <- renderPlot({
     create_tissue_plot(my_selected_gene = input$gene)
+  })
+  # 20 accessions plot
+  output$plot4 <- renderPlotly({
+    create_20_accessions_plot(my_selected_gene = input$gene)
   })
 }
 

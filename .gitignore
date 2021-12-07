@@ -40,3 +40,4 @@ vignettes/*.pdf
 datasets/
 .DS_Store
 shiny_rnaseq_app.Rproj
+tomato_rnaseq/rsconnect/
