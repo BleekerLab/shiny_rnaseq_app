@@ -1,8 +1,10 @@
 ## app.R ##
-library(shiny)
-library(shinydashboard)
+suppressPackageStartupMessages(library("periscope")) # had to be installed with devtools::install_github('cb4ds/periscope')
+suppressPackageStartupMessages(library("shiny"))
+suppressPackageStartupMessages(library("shinydashboard"))
 suppressPackageStartupMessages(library("tidyverse"))
 suppressPackageStartupMessages(library("plotly"))
+
 
 source("utils/create_F2_plot.R")
 source("utils/create_tissue_plot.R")
@@ -13,7 +15,7 @@ source("utils/create_myc1_plot.R")
 # User Interface
 ################
 ui <- dashboardPage(
-  dashboardHeader(title = "Tomato gene explorer", titleWidth = 200),
+  dashboardHeader(title = "Tomato gene explorer", titleWidth = 300),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
@@ -33,7 +35,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(status = "success", plotlyOutput("plot_wild")),
                 box(status = "success", plotlyOutput("plot_myc1"))
-              )
+              ),
       ),
       
       # Second tab content

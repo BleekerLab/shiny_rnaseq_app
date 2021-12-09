@@ -19,15 +19,15 @@ import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03
   
   df_filtered <- dplyr::filter(.data = df, grepl(pattern = my_selected_gene, x = gene)) %>% 
     inner_join(., y = genotype2phenotype, by = "genotype") %>% 
-    mutate(genotype = factor(genotype, levels = new_genotype_levels))
+    mutate(genotype = factor(genotype, levels = new_genotype_levels)) %>% 
+    mutate(trichome_class = as.factor(trichome_class))
   
-  
-  p <- ggplot(df_filtered, aes(x = genotype, y = counts, col = trichome_class)) + 
-    geom_point(size = 3) + 
-    scale_fill_brewer(type = "qual", palette = 3) +
+  p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = trichome_class)) + 
+    geom_bar(stat = "identity") + 
     coord_flip() +
     labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)") +
     ggtitle("Gene expression in 'active' and 'lazy' F2s")
+  p
   
   return(p)
 }

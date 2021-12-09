@@ -22,7 +22,6 @@ create_myc1_plot <- function(dataset          = "datasets/dataset04_MYC1.csv",
     scale_fill_brewer(type = "qual", palette = 3) +
     labs(x = "Genotype", y = "Normalised counts (AU)") +
     ggtitle("Gene expression in MYC1-related genotypes") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     facet_wrap(~ tissue)
 
   # convert to interactive plotly figure

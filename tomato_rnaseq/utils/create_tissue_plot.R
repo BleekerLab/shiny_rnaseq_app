@@ -17,6 +17,5 @@ create_tissue_plot <- function(dataset = "datasets/dataset02_tissues.csv",
     facet_wrap(~ tissue) +
     labs(x = "Genotypes", y = "Normalised counts (AU)") +
     ggtitle("Gene expression in different tissues")
-  
   return(p)
 }
