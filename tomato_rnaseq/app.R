@@ -29,8 +29,8 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "plots",
               fluidRow(
-                box(status = "primary", width = 6, plotOutput("plot_f2")),
-                box( status = "primary", width = 6, plotOutput("plot_tissues"))
+                box(status = "primary", width = 6, plotlyOutput("plot_f2")),
+                box( status = "primary", width = 6, plotlyOutput("plot_tissues"))
               ),
               fluidRow(
                 box(status = "success", plotlyOutput("plot_wild")),
@@ -51,11 +51,11 @@ ui <- dashboardPage(
 #############
 server <- function(input, output) {
   # F2 data
-  output$plot_f2 <- renderPlot({
+  output$plot_f2 <- renderPlotly({
     import_process_and_create_f2_plot_data(my_selected_gene = input$gene)
     })
   # Tissue plot
-  output$plot_tissues <- renderPlot({
+  output$plot_tissues <- renderPlotly({
     create_tissue_plot(my_selected_gene = input$gene)
   })
   # 20 accessions plot

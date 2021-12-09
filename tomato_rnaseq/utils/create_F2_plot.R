@@ -27,7 +27,7 @@ import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03
     coord_flip() +
     labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)") +
     ggtitle("Gene expression in 'active' and 'lazy' F2s")
-  p
+  p <- ggplotly(p)
   
   return(p)
 }
