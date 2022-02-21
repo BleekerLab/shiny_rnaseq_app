@@ -21,12 +21,14 @@ create_20_accessions_plot <- function(dataset = "datasets/dataset01_20_accession
     mutate(genotype = factor(genotype, levels = genotype_order)) 
   
   # Step 04: Create the plot and make it interactive 
+  plot_title <- glue("{my_selected_gene} gene expression in stem trichomes (20 accessions)")
+  
   p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = species)) + 
     geom_boxplot() + 
     geom_point() +
     scale_fill_brewer(type = "qual", palette = 3) +
     labs(x = "Genotype", y = "Normalised counts (AU)") +
-    ggtitle("Stem trichome gene expression (20 accessions)") +
+    ggtitle(plot_title) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   p <- ggplotly(p)
   

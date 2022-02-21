@@ -17,11 +17,12 @@ create_myc1_plot <- function(dataset          = "datasets/dataset04_MYC1.csv",
   mutate(genotype = factor(genotype, levels = genotype_order)) %>% 
   mutate(tissue = factor(tissue, levels = tissue_order)) 
   
+  plot_title <- glue("{my_selected_gene} gene expression in MYC1-related genotypes")
   p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = genotype)) + 
     geom_boxplot() + 
     scale_fill_brewer(type = "qual", palette = 3) +
     labs(x = "Genotype", y = "Normalised counts (AU)") +
-    ggtitle("Gene expression in MYC1-related genotypes") +
+    ggtitle(plot_title) +
     facet_wrap(~ tissue)
 
   # convert to interactive plotly figure

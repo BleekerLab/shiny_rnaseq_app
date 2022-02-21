@@ -10,13 +10,14 @@ create_tissue_plot <- function(dataset = "datasets/dataset02_tissues.csv",
   
   df_filtered <- dplyr::filter(.data = df, grepl(pattern = my_selected_gene, x = gene)) 
   
+  plot_title <- glue("{my_selected_gene} gene expression in different tissues")
   p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = genotype)) + 
     geom_boxplot() + 
     geom_point() +
     scale_fill_brewer(type = "qual", palette = 3) +
     facet_wrap(~ tissue) +
     labs(x = "Genotypes", y = "Normalised counts (AU)") +
-    ggtitle("Gene expression in different tissues")
+    ggtitle(plot_title)
   p <- ggplotly(p)
   
   return(p)

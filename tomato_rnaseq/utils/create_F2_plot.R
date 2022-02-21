@@ -22,11 +22,12 @@ import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03
     mutate(genotype = factor(genotype, levels = new_genotype_levels)) %>% 
     mutate(trichome_class = as.factor(trichome_class))
   
+  plot_title <- glue("{my_selected_gene} gene expression in 'active' and 'lazy' F2s")
   p <- ggplot(df_filtered, aes(x = genotype, y = counts, fill = trichome_class)) + 
     geom_bar(stat = "identity") + 
     coord_flip() +
     labs(x = "Genotypes (From the Elite x PI127826 cross)", y = "Normalised counts (AU)") +
-    ggtitle("Gene expression in 'active' and 'lazy' F2s")
+    ggtitle(plot_title) 
   p <- ggplotly(p)
   
   return(p)

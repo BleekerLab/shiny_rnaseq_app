@@ -4,7 +4,8 @@ suppressPackageStartupMessages(library("shiny"))
 suppressPackageStartupMessages(library("shinydashboard"))
 suppressPackageStartupMessages(library("tidyverse"))
 suppressPackageStartupMessages(library("plotly"))
-
+suppressPackageStartupMessages(library("data.table"))
+suppressPackageStartupMessages(library("glue"))
 
 source("utils/create_F2_plot.R")
 source("utils/create_tissue_plot.R")
@@ -20,7 +21,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
       menuItem("Data", tabName = "data", icon = icon("th")),
-      textInput("gene", label = "Type in your favorite gene",value = "Solyc10g075090")
+      textInput("gene", label = "Type in your favorite gene (SL2.50 annotation)",value = "Solyc10g075090")
       )
     ),
   
