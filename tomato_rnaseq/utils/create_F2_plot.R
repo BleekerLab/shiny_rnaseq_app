@@ -15,7 +15,9 @@ import_process_and_create_f2_plot_data <- function(dataset = "datasets/dataset03
   genotype2phenotype <- read.csv("info/dataset03_F2_samples2condition.csv", 
                                  stringsAsFactors = FALSE)
   
-  df <- read.csv(dataset, stringsAsFactors = FALSE, check.names = FALSE)
+  df <- data.table::fread(file = dataset, 
+                          data.table = FALSE,
+                          stringsAsFactors = F, check.names = FALSE)
   
   df_filtered <- dplyr::filter(.data = df, grepl(pattern = my_selected_gene, x = gene)) %>% 
     inner_join(., y = genotype2phenotype, by = "genotype") %>% 

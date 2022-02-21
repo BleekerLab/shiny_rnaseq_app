@@ -20,7 +20,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
-      menuItem("Data", tabName = "data", icon = icon("th")),
+      menuItem("About", tabName = "about", icon = icon("th")),
       textInput("gene", label = "Type in your favorite gene (SL2.50 annotation)",value = "Solyc10g075090")
       )
     ),
@@ -40,7 +40,7 @@ ui <- dashboardPage(
       ),
       
       # Second tab content
-      tabItem(tabName = "data",
+      tabItem(tabName = "about",
               includeMarkdown("about.md")
       )
     )

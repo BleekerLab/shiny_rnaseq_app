@@ -2,7 +2,9 @@ create_myc1_plot <- function(dataset          = "datasets/dataset04_MYC1.csv",
                              info             = "info/dataset04_MYC1_samples2conditions.csv",
                              my_selected_gene = "Solyc10g075090"){
   # Import counts
-  df <- read.csv(dataset, stringsAsFactors = F) 
+  df <- data.table::fread(file = dataset, 
+                          data.table = FALSE,
+                          stringsAsFactors = F)
   
   # Import sample to genotype and tissue correspondence
   genotype2conditions <- read.csv(info, 

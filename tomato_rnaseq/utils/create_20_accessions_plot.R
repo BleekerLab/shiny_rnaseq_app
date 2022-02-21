@@ -2,8 +2,9 @@ create_20_accessions_plot <- function(dataset = "datasets/dataset01_20_accession
                                                           my_selected_gene = "Solyc10g075090"){
   # Goal = pass the plot ready for Shiny
   # Step 01: import counts
-  df <- read.csv(dataset, 
-                 stringsAsFactors = F) %>% 
+  df <- data.table::fread(file = dataset, 
+                          data.table = FALSE,
+                          stringsAsFactors = F) %>% 
     pivot_longer(- gene, names_to = "sample", values_to = "counts") %>% 
     separate(sample, into = c("genotype", "replicate"))
   

@@ -1,7 +1,10 @@
 create_tissue_plot <- function(dataset = "datasets/dataset02_tissues.csv", 
                                                           my_selected_gene = "Solyc10g075090"){
   # Goal = pass the plot ready for Shiny
-  df <- read.csv(dataset, stringsAsFactors = FALSE, check.names = FALSE) %>% 
+  df <- data.table::fread(file = dataset, 
+                          data.table = FALSE, 
+                          check.names = FALSE, 
+                          stringsAsFactors = F) %>% 
     pivot_longer(- gene, names_to = "sample", values_to = "counts") %>% 
     separate(sample, into = c("genotype", "tissue","replicate"), sep = "_") %>% 
     mutate(tissue = gsub(pattern = "baldStem", replacement = "bald_stem", x = tissue)) %>% 
