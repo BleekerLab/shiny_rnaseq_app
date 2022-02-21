@@ -41,7 +41,7 @@ ui <- dashboardPage(
       
       # Second tab content
       tabItem(tabName = "data",
-              h2("FIXME")
+              includeMarkdown("about.md")
       )
     )
   )
