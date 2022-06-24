@@ -8,6 +8,7 @@ suppressPackageStartupMessages(library("data.table"))
 suppressPackageStartupMessages(library("glue"))
 
 source("utils/create_F2_plot.R")
+source("utils/create_active_lazy_t6glands_plot.R")
 source("utils/create_tissue_plot.R")
 source("utils/create_20_accessions_plot.R")
 source("utils/create_myc1_plot.R")
@@ -21,7 +22,8 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
       menuItem("About", tabName = "about", icon = icon("th")),
-      textInput("gene", label = "Type in your favorite gene (SL2.50 annotation)",value = "Solyc10g075090")
+      textInput("gene", label = "Type in your favorite gene (ITAG4 annotation, see the 'About' section)",
+                value = "Solyc10g075090")
       )
     ),
   
@@ -30,7 +32,7 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "plots",
               fluidRow(
-                box(status = "primary", width = 6, plotlyOutput("plot_f2")),
+                box(status = "primary", width = 6, plotlyOutput("plot_glands")),
                 box( status = "primary", width = 6, plotlyOutput("plot_tissues"))
               ),
               fluidRow(
@@ -52,8 +54,8 @@ ui <- dashboardPage(
 #############
 server <- function(input, output) {
   # F2 data
-  output$plot_f2 <- renderPlotly({
-    import_process_and_create_f2_plot_data(my_selected_gene = input$gene)
+  output$plot_glands <- renderPlotly({
+    import_process_and_create_gland_plot(my_selected_gene = input$gene)
     })
   # Tissue plot
   output$plot_tissues <- renderPlotly({
