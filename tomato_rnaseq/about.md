@@ -3,10 +3,12 @@
 ## The tomato gene explorer
 RNA-seq datasets were aligned against the tomato genome (SL2.50 or SL4.0 assembly) together with the annotation ITAG2.4 or ITAG4.0 using the [snakemake-rnaseq pipeline release v0.3.8](https://github.com/BleekerLab/snakemake_rnaseq/releases/tag/v0.3.8).
 
-The tomato genome references can be found on SOl Genomics:
+The tomato genome references can be found on Sol Genomics:
 - [Genome assembly](https://solgenomics.net/ftp/tomato_genome/Heinz1706/assembly/build_2.50/).   
 - [Genome annotation](https://solgenomics.net/ftp/tomato_genome/Heinz1706/annotation/ITAG2.4_release/).  
-:warning: Your favorite gene has to exist in the ITAG2.4 genome annotation. Please check online in the Sol Genomics genome browser that it exists -> [Link](https://solgenomics.net/jbrowse_solgenomics/?data=data%2Fjson%2FSL2.50&loc=SL2.50ch00%3A8723336..13084500&tracks=DNA%2Cgene_models&highlight=).
+
+Your favorite gene might not exist in ITAG2.5 or ITAG4.0 annotations. 
+Please check online in the [Sol Genomics genome browser](https://solgenomics.net/jbrowse_solgenomics/?data=data%2Fjson%2FSL2.50&loc=SL2.50ch00%3A8723336..13084500&tracks=DNA%2Cgene_models&highlight=) that it exists.
 
 
 

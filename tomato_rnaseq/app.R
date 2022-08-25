@@ -13,6 +13,7 @@ source("utils/create_tissue_plot.R")
 source("utils/create_20_accessions_plot.R")
 source("utils/create_myc1_plot.R")
 source("utils/extract_gene_info_from_solgenomics.R")
+source("utils/create_table_of_gene_counts.R")
 
 ################
 # User Interface
@@ -21,11 +22,20 @@ ui <- dashboardPage(
   dashboardHeader(title = "Tomato gene explorer", titleWidth = 300),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
-      menuItem("Gene info", tabName = "gene_counts", icon = icon("th")),
-      menuItem("About", tabName = "about", icon = icon("th")),
-      menuItem("Gene values", tabName="values", icon = icon("table")),
-      textInput("gene", label = "Type in your favorite gene (see the 'About' section for more info)",
+      menuItem("Plots", 
+               tabName = "plots", 
+               icon = icon("chart-bar")),
+      menuItem("Gene info", 
+               tabName = "gene_info", 
+               icon = icon("dna")),
+      menuItem("Gene values", 
+               tabName="gene_values", 
+               icon = icon("table")),
+      menuItem("About", 
+               tabName = "about", 
+               icon = icon("info")),
+      textInput("gene", 
+                label = "Type in your favorite gene (see 'About' tab)",
                 value = "Solyc10g075090")
       )
     ),
@@ -45,21 +55,24 @@ ui <- dashboardPage(
       ),
       
       # Second tab: gene information
-      tabItem(tabName = "gene_counts", 
+      tabItem(tabName = "gene_info", 
               fluidRow(
-                box(title = "Gene description based on ITAG4.0 annotation", tableOutput("gene_info"))
+                box(title = "Gene information (from Sol Genomics)", tableOutput("sol_gene_info"))
               )
       ),
       
+      # Fourth tab: gene scaled counts
+      tabItem(tabName = "gene_values", 
+              fluidRow(
+                box(title = "Scaled gene counts",
+                    width = 12,
+                    tableOutput("gene_values"))
+              )),
       # Third tab content: information about the app
-      tabItem(tabName = "about", includeMarkdown("about.md")),
-      
-      # Fourth tab: gene scaled count values
-      tabItem(tabName = "values", tableOutput("gene_values"))
-      )
+      tabItem(tabName = "about", includeMarkdown("about.md"))
     )
-  )
-
+    )
+)
 #############
 # Server side
 #############
@@ -82,10 +95,10 @@ server <- function(input, output) {
   })
   # Table of gene scaled count values
   output$gene_values <- renderTable({
-    create_table_gene_counts(my_selected_gene = input$gene)
+    create_table_of_gene_counts(my_selected_gene = input$gene)
   })
   # Gene information (description etc.)
-  output$gene_info <- renderTable({
+  output$sol_gene_info <- renderTable({
     extract_gene_info_from_solgenomics(my_selected_gene = input$gene)
   })
 }
