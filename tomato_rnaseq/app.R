@@ -12,6 +12,7 @@ source("utils/create_active_lazy_t6glands_plot.R")
 source("utils/create_tissue_plot.R")
 source("utils/create_20_accessions_plot.R")
 source("utils/create_myc1_plot.R")
+source("utils/extract_gene_info_from_solgenomics.R")
 
 ################
 # User Interface
@@ -21,8 +22,10 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Plots", tabName = "plots", icon = icon("dashboard")),
+      menuItem("Gene info", tabName = "gene_counts", icon = icon("th")),
       menuItem("About", tabName = "about", icon = icon("th")),
-      textInput("gene", label = "Type in your favorite gene (ITAG4 annotation, see the 'About' section)",
+      menuItem("Gene values", tabName="values", icon = icon("table")),
+      textInput("gene", label = "Type in your favorite gene (see the 'About' section for more info)",
                 value = "Solyc10g075090")
       )
     ),
@@ -38,16 +41,24 @@ ui <- dashboardPage(
               fluidRow(
                 box(status = "success", plotlyOutput("plot_wild")),
                 box(status = "success", plotlyOutput("plot_myc1"))
-              ),
+              )
       ),
       
-      # Second tab content
-      tabItem(tabName = "about",
-              includeMarkdown("about.md")
+      # Second tab: gene information
+      tabItem(tabName = "gene_counts", 
+              fluidRow(
+                box(title = "Gene description based on ITAG4.0 annotation", tableOutput("gene_info"))
+              )
+      ),
+      
+      # Third tab content: information about the app
+      tabItem(tabName = "about", includeMarkdown("about.md")),
+      
+      # Fourth tab: gene scaled count values
+      tabItem(tabName = "values", tableOutput("gene_values"))
       )
     )
   )
-)
 
 #############
 # Server side
@@ -68,6 +79,14 @@ server <- function(input, output) {
   # MYC1 related plot
   output$plot_myc1 <- renderPlotly({
     create_myc1_plot(my_selected_gene = input$gene)
+  })
+  # Table of gene scaled count values
+  output$gene_values <- renderTable({
+    create_table_gene_counts(my_selected_gene = input$gene)
+  })
+  # Gene information (description etc.)
+  output$gene_info <- renderTable({
+    extract_gene_info_from_solgenomics(my_selected_gene = input$gene)
   })
 }
 
