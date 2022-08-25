@@ -63,7 +63,8 @@ ui <- dashboardPage(
       
       # Fourth tab: gene scaled counts
       tabItem(tabName = "gene_values", 
-              fluidRow(
+              fluidPage(
+                downloadButton(outputId = "download", label = "Download the table as .csv"),
                 box(title = "Scaled gene counts",
                     width = 12,
                     tableOutput("gene_values"))
@@ -97,6 +98,16 @@ server <- function(input, output) {
   output$gene_values <- renderTable({
     create_table_of_gene_counts(my_selected_gene = input$gene)
   })
+  # Download the table of gene scaled count values
+  thedata <- reactive(create_table_of_gene_counts(my_selected_gene = input$gene))
+  output$download <- downloadHandler(
+    filename = function(){
+      paste(input$gene, ".csv", sep="")
+      },
+    content = function(fname){
+      write.csv(x = thedata(), fname, row.names = FALSE, quote = FALSE)
+    }
+  )
   # Gene information (description etc.)
   output$sol_gene_info <- renderTable({
     extract_gene_info_from_solgenomics(my_selected_gene = input$gene)
